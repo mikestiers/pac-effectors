@@ -15,22 +15,17 @@ public class GhostChase : GhostBehaviour
 
         if (node != null && this.enabled && !this.ghost.scared.enabled)
         {
-            Vector2 direction = Vector2.zero;
-            float minDistance = float.MaxValue;
+            int index = Random.Range(0, node.availableDirections.Count);
 
-            foreach (Vector2 availabDirection in node.availableDirections)
+            if (node.availableDirections[index] == -this.ghost.movement.direction && node.availableDirections.Count > 1) // avoid patrolling back and forth
             {
-                Vector3 newPosition = this.transform.position + new Vector3(availabDirection.x, availabDirection.y, 0.0f);
-                float distance = (this.ghost.target.position - newPosition).sqrMagnitude;
+                index++; // just pick the next one instead of random or wrap back to zero
 
-                if (distance < minDistance)
-                {
-                    direction = availabDirection;
-                    minDistance = distance;
-                }
-
-                this.ghost.movement.SetDirection(direction);
+                if (index >= node.availableDirections.Count)
+                    index = 0;
             }
+
+            this.ghost.movement.SetDirection(node.availableDirections[index]);
         }
     }
 }

@@ -15,7 +15,7 @@ public class Pellet : MonoBehaviour
 
         // Set the starting position after the delay.
         this.startingPosition = transform.position;
-        Debug.Log("Starting Position: " + this.startingPosition);
+        //Debug.Log("Starting Position: " + this.startingPosition);
     }
 
 

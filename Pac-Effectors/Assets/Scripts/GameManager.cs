@@ -8,10 +8,13 @@ public class GameManager : MonoBehaviour
     public Pacman pacman;
     public Transform pellets;
     public GameObject pelletEffector;
+    public GameObject[] pelletEffectors;
     public int score { get; private set; }
     public int lives { get; private set; }
     public int ghostMultiplier { get; private set; }
     public bool effectorEnabled = false;
+    public int randomEffectorEffect;
+    public int effectorIndex = 0;
 
     private void Start()
     {
@@ -104,7 +107,11 @@ public class GameManager : MonoBehaviour
 
     public void PowerPelletEaten(PowerPellet pellet)
     {
+        for (int i = 0; i < this.ghosts.Length; i++)
+            this.ghosts[i].scared.Enable(pellet.duration);
+        
         PelletEaten(pellet);
+        randomEffectorEffect = UnityEngine.Random.Range(0, 2);
         EnableEffector();
         CancelInvoke(); // reset ghost multiplier timer if it is still in progress
         StartCoroutine(DisableEffectorAndResetGhostMultiplier(pellet.duration));
@@ -119,6 +126,7 @@ public class GameManager : MonoBehaviour
 
         // Disable the effector after the delay
         DisableEffector();
+        effectorIndex++;
 
         // Reset ghost multiplier after the same delay
         ResetGhostMultiplier();
@@ -126,21 +134,37 @@ public class GameManager : MonoBehaviour
 
     private void EnableEffector()
     {
-        pelletEffector.SetActive(true);
+        if (effectorIndex > pelletEffectors.Length)
+            effectorIndex = 0;
+        pelletEffectors[effectorIndex].SetActive(true);
+        //pelletEffector.SetActive(true);
         effectorEnabled = true;
         Pellet[] pellets = FindObjectsOfType<Pellet>();
         foreach (Pellet pellet in pellets)
+        {
+            if (randomEffectorEffect == 1)
+            {
+                pellet.GetComponent<Collider2D>().isTrigger = false;
+            }
             pellet.ResetAfterEffector();
+        }
     }
 
     private void DisableEffector()
     {
-        pelletEffector.SetActive(false); // Disable the effector after pellet.duration seconds
+        pelletEffectors[effectorIndex].SetActive(false);
+        //pelletEffector.SetActive(false); // Disable the effector after pellet.duration seconds
         effectorEnabled = false;
         Pellet[] pellets = FindObjectsOfType<Pellet>();
         foreach (Pellet pellet in pellets)
+        {
             pellet.ResetAfterEffector();
-    }    
+            if (randomEffectorEffect == 1)
+            {
+                pellet.GetComponent<Collider2D>().isTrigger = true;
+            }
+        }
+        }    
 
     private void ResetGhostMultiplier()
     {

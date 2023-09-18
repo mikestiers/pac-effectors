@@ -5,6 +5,7 @@ using UnityEngine;
 public class Teleport : MonoBehaviour
 {
     public Transform destination;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Ignoring Z because pacmman is on a diff z;
