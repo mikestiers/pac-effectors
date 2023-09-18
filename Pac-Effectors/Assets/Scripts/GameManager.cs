@@ -7,9 +7,11 @@ public class GameManager : MonoBehaviour
     public Ghost[] ghosts;
     public Pacman pacman;
     public Transform pellets;
+    public GameObject pelletEffector;
     public int score { get; private set; }
     public int lives { get; private set; }
     public int ghostMultiplier { get; private set; }
+    public bool effectorEnabled = false;
 
     private void Start()
     {
@@ -103,9 +105,42 @@ public class GameManager : MonoBehaviour
     public void PowerPelletEaten(PowerPellet pellet)
     {
         PelletEaten(pellet);
+        EnableEffector();
         CancelInvoke(); // reset ghost multiplier timer if it is still in progress
-        Invoke(nameof(ResetGhostMultiplier), pellet.duration);
+        StartCoroutine(DisableEffectorAndResetGhostMultiplier(pellet.duration));
+
+        //Invoke(nameof(DisableEffector), pellet.duration);
+        //Invoke(nameof(ResetGhostMultiplier), pellet.duration);
     }
+
+    private IEnumerator DisableEffectorAndResetGhostMultiplier(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        // Disable the effector after the delay
+        DisableEffector();
+
+        // Reset ghost multiplier after the same delay
+        ResetGhostMultiplier();
+    }
+
+    private void EnableEffector()
+    {
+        pelletEffector.SetActive(true);
+        effectorEnabled = true;
+        Pellet[] pellets = FindObjectsOfType<Pellet>();
+        foreach (Pellet pellet in pellets)
+            pellet.ResetAfterEffector();
+    }
+
+    private void DisableEffector()
+    {
+        pelletEffector.SetActive(false); // Disable the effector after pellet.duration seconds
+        effectorEnabled = false;
+        Pellet[] pellets = FindObjectsOfType<Pellet>();
+        foreach (Pellet pellet in pellets)
+            pellet.ResetAfterEffector();
+    }    
 
     private void ResetGhostMultiplier()
     {

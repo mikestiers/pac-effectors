@@ -10,4 +10,10 @@ public class PowerPellet : Pellet
     {
         FindObjectOfType<GameManager>().PowerPelletEaten(this);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
+            Eat();
+    }
 }
