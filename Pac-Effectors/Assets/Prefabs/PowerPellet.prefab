@@ -125,4 +125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 50
+  munch: {fileID: 8300000, guid: 58244f153780d2c4fa509a2e723547ba, type: 3}
   duration: 8
+  powerMunch: {fileID: 8300000, guid: 2666282e9cb440d4da4fb19f966587a2, type: 3}

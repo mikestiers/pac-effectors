@@ -5,9 +5,11 @@ using UnityEngine;
 public class PowerPellet : Pellet
 {
     public float duration = 8.0f;
+    public AudioClip powerMunch;
 
     protected override void Eat()
     {
+        AudioManager.singleton.PlaySoundEffect(powerMunch);
         FindObjectOfType<GameManager>().PowerPelletEaten(this);
     }
 

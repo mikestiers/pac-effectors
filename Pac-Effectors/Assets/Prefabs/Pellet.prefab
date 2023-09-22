@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 10
+  munch: {fileID: 8300000, guid: 58244f153780d2c4fa509a2e723547ba, type: 3}
 --- !u!50 &-4799131086914130938
 Rigidbody2D:
   serializedVersion: 4

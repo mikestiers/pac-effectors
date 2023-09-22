@@ -10,6 +10,8 @@ public class Ghost : MonoBehaviour
     public GhostChase chase { get; private set; }
     public GhostScared scared { get; private set; }
     public GhostBehaviour initialBehaviour;
+    public AudioClip ghostEaten;
+    public AudioClip pacmanEaten;
     public Transform target; // pacman
     public int points = 200;
 
@@ -46,9 +48,15 @@ public class Ghost : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
         {
             if (this.scared.enabled)
+            {
+                AudioManager.singleton.PlaySoundEffect(ghostEaten);
                 FindObjectOfType<GameManager>().GhostEaten(this);
+            }
             else
+            {
                 FindObjectOfType<GameManager>().PacmanEaten();
+                AudioManager.singleton.PlaySoundEffect(ghostEaten);
+            }
         }
     }
 }

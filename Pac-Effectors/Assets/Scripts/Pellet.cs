@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class Pellet : MonoBehaviour
 {
     public int points = 10;
+    public AudioClip munch;
     public Vector3 startingPosition { get; private set; }
 
     private IEnumerator Start()
@@ -21,6 +22,7 @@ public class Pellet : MonoBehaviour
 
     protected virtual void Eat()
     {
+        AudioManager.singleton.PlaySoundEffect(munch);
         FindObjectOfType<GameManager>().PelletEaten(this);
     }
 

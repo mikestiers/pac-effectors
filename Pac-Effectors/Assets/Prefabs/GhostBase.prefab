@@ -215,6 +215,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialBehaviour: {fileID: 0}
+  ghostEaten: {fileID: 8300000, guid: 2c74ec42f06bf3543af8db89402f739c, type: 3}
+  pacmanEaten: {fileID: 8300000, guid: 9fee80f3e1065c944afce28fe2adbde8, type: 3}
   target: {fileID: 0}
   points: 200
 --- !u!114 &2250745368806528192
